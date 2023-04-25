@@ -9,10 +9,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username: string, pass: string) {
-    console.log(`--> auth/signIn username: ${username}`);
-    const user = await this.userService.findOne(username);
-    console.log(`--> auth/signIn user: --> users/FindOne user:${user}`);
+  async signIn(email: string, pass: string) {
+    const user = await this.userService.findOne(email);
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }
@@ -27,7 +25,7 @@ export class AuthService {
     we violate that absolute mandate and use plain text. 
     Don't do this in your real app!
     */
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { email: user.email, sub: user.userId };
     return {
       acess_token: await this.jwtService.signAsync(payload),
     };

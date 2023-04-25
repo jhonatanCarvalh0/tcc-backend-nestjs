@@ -9,20 +9,18 @@ export class UsersService {
     {
       userId: 1,
       username: 'john',
+      email: 'john@example.com',
       password: 'changeme',
     },
     {
       userId: 2,
       username: 'maria',
+      email: 'maria@example.com',
       password: 'guess',
     },
   ];
 
-  async findOne(username: string): Promise<User | undefined> {
-    console.log('--> users/FindOne');
-    console.log(`username: ${username}`);
-    console.log(`user: ${this.users[0].username}`);
-
-    return this.users.find((user) => user.username === username); // por que caralhas ta dando undefined!!!
+  async findOne(email: string): Promise<User | undefined> {
+    return this.users.find((user) => user.email === email); // por que caralhas ta dando undefined!!!
   }
 }

@@ -24,7 +24,7 @@ export class AuthController {
        See the validation chapter at nestjs docs for more information
      */
   signIn(@Body() singInDto: Record<string, any>) {
-    return this.authService.signIn(singInDto.username, singInDto.password);
+    return this.authService.signIn(singInDto.email, singInDto.password);
   }
 
   @UseGuards(AuthGuard)
