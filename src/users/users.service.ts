@@ -19,6 +19,10 @@ export class UsersService {
   ];
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+    console.log('--> users/FindOne');
+    console.log(`username: ${username}`);
+    console.log(`user: ${this.users[0].username}`);
+
+    return this.users.find((user) => user.username === username); // por que caralhas ta dando undefined!!!
   }
 }
