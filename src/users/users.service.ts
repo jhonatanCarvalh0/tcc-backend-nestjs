@@ -7,6 +7,12 @@ export type User = any;
 export class UsersService {
   private readonly users = [
     {
+      userId: 0,
+      username: 'jhonatan',
+      email: 'email',
+      password: 'senha',
+    },
+    {
       userId: 1,
       username: 'john',
       email: 'john@example.com',
