@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { log } from 'console';
 
 // This should be a real class/interface representing a user entity
 export type User = any;
@@ -28,5 +29,29 @@ export class UsersService {
 
   async findOne(email: string): Promise<User | undefined> {
     return this.users.find((user) => user.email === email); // por que caralhas ta dando undefined!!!
+  }
+
+  async addOne(newUserData: object): Promise<any | undefined> {
+    console.log(`Start addOne --> parameter: ${newUserData}`);
+    console.log(this.users);
+
+    const newUser: User = { userId: this.users.length, ...newUserData };
+    console.log(`const newUser: User = ${newUser}`);
+
+    if (this.users.find((user) => user.email === newUser.email)) {
+      console.log('if statement: User already exist! Returned false');
+      return false;
+    }
+
+    this.users.push(newUser);
+    console.log('user added!Return true');
+    console.log('End addOne');
+
+    return true;
+  }
+
+  async list() {
+    console.log(this.users);
+    return;
   }
 }
