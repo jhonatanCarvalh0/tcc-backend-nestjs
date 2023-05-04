@@ -1,3 +1,4 @@
+//DTO's
 export class CreateIngressoDto {
   tipoIngresso: string;
   bensMoveis: BemMovelDto[];
@@ -16,11 +17,19 @@ export class FileDto {
   buffer: Buffer;
 }
 
+//interfaces?
 export class BemMovel {
-  id: number;
+  id: string;
   nome: string;
   descricao: string;
   valor: number;
   arquivosAnexados: FileDto[];
-  ingressoId: number;
+  tipoIngresso: string;
+  ingressoId: string;
+}
+
+export class IngressoBemMovel {
+  id: string;
+  tipoIngresso: string;
+  bensMoveis: BemMovelDto[];
 }
