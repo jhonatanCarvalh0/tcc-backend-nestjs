@@ -38,7 +38,7 @@ export class BensMoveisService {
   }
 
   findAll() {
-    return this.ingressos;
+    return this.bensMoveis;
   }
 
   findBensByIngresso(ingressoId: string) {

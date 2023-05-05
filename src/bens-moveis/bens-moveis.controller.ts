@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { BensMoveisService } from './bens-moveis.service';
 import { CreateIngressoDto } from './dto/create-ingresso.dto';
 
@@ -9,5 +9,10 @@ export class BensMoveisController {
   @Post('ingresso')
   create(@Body() createIngressoDto: CreateIngressoDto) {
     return this.bensMoveisService.create(createIngressoDto);
+  }
+
+  @Get('list')
+  findAll() {
+    return this.bensMoveisService.findAll();
   }
 }
