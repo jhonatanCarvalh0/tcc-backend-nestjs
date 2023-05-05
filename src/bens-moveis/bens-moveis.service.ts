@@ -25,7 +25,7 @@ export class BensMoveisService {
         descricao: createBemMovelDto.descricao,
         valor: createBemMovelDto.valor,
         arquivosAnexados: createBemMovelDto.arquivosAnexados,
-        tipoIngresso: ingresso.tipoIngresso,
+        tipoIngresso: createIngressoDto.tipoIngresso,
         ingressoId: ingresso.id,
       };
       this.bensMoveis.push(bemMovel);
@@ -34,7 +34,7 @@ export class BensMoveisService {
 
     this.ingressos.push(ingresso);
 
-    return ingresso;
+    return true;
   }
 
   findAll() {

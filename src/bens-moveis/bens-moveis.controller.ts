@@ -6,12 +6,12 @@ import { CreateIngressoDto } from './dto/create-ingresso.dto';
 export class BensMoveisController {
   constructor(private readonly bensMoveisService: BensMoveisService) {}
 
-  @Post('ingresso')
+  @Post('create-ingresso')
   create(@Body() createIngressoDto: CreateIngressoDto) {
     return this.bensMoveisService.create(createIngressoDto);
   }
 
-  @Get('list')
+  @Get('find-all')
   findAll() {
     return this.bensMoveisService.findAll();
   }
