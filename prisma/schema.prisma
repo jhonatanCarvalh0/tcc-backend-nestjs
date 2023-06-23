@@ -1,0 +1,60 @@
+// DATABASE
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// ORM
+generator client {
+    provider = "prisma-client-js"
+}
+
+// TABLES
+model Setor {
+  id        Int                 @id @default(autoincrement())
+  nome      String
+  usuarios  Usuario[]
+  unidade   UnidadeAdministrativa @relation(fields: [unidadeId], references: [id])
+  unidadeId Int
+}
+
+model Usuario {
+  id      Int    @id @default(autoincrement())
+  nome    String
+  setor   Setor  @relation(fields: [setorId], references: [id])
+  setorId Int
+  orgao   Orgao  @relation(fields: [orgaoId], references: [id])
+  orgaoId Int
+}
+
+model UnidadeAdministrativa {
+  id       Int                @id @default(autoincrement())
+  nome     String
+  orgao    Orgao              @relation(fields: [orgaoId], references: [id])
+  orgaoId  Int
+  setores  Setor[]
+}
+
+model UnidadeGestora {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  orgaos   Orgao[]
+}
+
+model Orgao {
+  id                      Int                      @id @default(autoincrement())
+  nome                    String
+  unidadeAdministrativa   UnidadeAdministrativa[]
+  unidadeGestora          UnidadeGestora           @relation(fields: [unidadeGestoraId], references: [id])
+  unidadeGestoraId        Int
+  usuarios                Usuario[]
+  bensMoveis              BemMovel[]
+}
+
+model BemMovel {
+  id         Int    @id @default(autoincrement())
+  nome       String
+  orgao      Orgao  @relation(fields: [orgaoId], references: [id])
+  orgaoId    Int
+}
+
