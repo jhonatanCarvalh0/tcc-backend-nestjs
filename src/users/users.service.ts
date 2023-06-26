@@ -10,25 +10,35 @@ export class UsersService {
     {
       userId: 0,
       username: 'jhonatan',
-      email: 'email',
-      password: 'senha',
+      email: 'asd',
+      password: 'asd',
     },
     {
-      userId: 1,
-      username: 'john',
-      email: 'john@example.com',
-      password: 'changeme',
+      id: 11111111,
+      nome: 'asd',
+      cpf: '11111111',
+      email: 'asd',
+      senha: 'asd',
+      setor: 'NCAPT',
+      setorId: 1,
+      orgao: 'FAPERO',
+      orgaoId: 1,
     },
     {
-      userId: 2,
-      username: 'maria',
-      email: 'maria@example.com',
-      password: 'guess',
+      id: 12345678,
+      nome: 'Jhonatan',
+      cpf: '11122233300',
+      email: 'jhonatan@email.com',
+      senha: 'senha',
+      setor: 'NCAPT',
+      setorId: 1,
+      orgao: 'FAPERO',
+      orgaoId: 1,
     },
   ];
 
   async findOne(email: string): Promise<User | undefined> {
-    return this.users.find((user) => user.email === email); // por que caralhas ta dando undefined!!!
+    return this.users.find((user) => user.email === email);
   }
 
   async addOne(newUserData: object): Promise<any | undefined> {
@@ -38,13 +48,13 @@ export class UsersService {
     const newUser: User = { userId: this.users.length, ...newUserData };
     console.log(`const newUser: User = ${newUser}`);
 
-    if (this.users.find((user) => user.email === newUser.email)) {
+    if (this.users.find((user) => user.cpf === newUser.cpf)) {
       console.log('if statement: User already exist! Returned false');
       return false;
     }
 
     this.users.push(newUser);
-    console.log('user added!Return true');
+    console.log('user added! Return true');
     console.log('End addOne');
 
     return true;
