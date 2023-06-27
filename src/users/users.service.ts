@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { log } from 'console';
-
+import * as bcrypt from 'bcrypt';
+import { UsuarioEntity } from './entities/user.entity';
 // This should be a real class/interface representing a user entity
 export type User = any;
 
 @Injectable()
 export class UsersService {
+  // Array de usuários fictícios
   private readonly users = [
     {
-      userId: 0,
-      username: 'jhonatan',
+      id: 0,
+      nome: 'jhonatan',
       email: 'asd',
-      password: 'asd',
+      senha: 'asd',
     },
     {
       id: 11111111,
@@ -37,29 +38,34 @@ export class UsersService {
     },
   ];
 
+  // Encontra um usuário pelo email
   async findOne(email: string): Promise<User | undefined> {
-    return this.users.find((user) => user.email === email);
+    const userFind = this.users.find((user) => user.email === email);
+    return userFind;
   }
 
-  async addOne(newUserData: object): Promise<any | undefined> {
-    console.log(`Start addOne --> parameter: ${newUserData}`);
-    console.log(this.users);
+  // Adiciona um novo usuário
+  async createUser(newUserData: UsuarioEntity): Promise<any | undefined> {
+    const hashedPassword = await bcrypt.hash(newUserData.senha, 10);
+    const newUser: User = {
+      id: this.users.length,
+      ...newUserData,
+      senha: hashedPassword,
+    };
 
-    const newUser: User = { userId: this.users.length, ...newUserData };
-    console.log(`const newUser: User = ${newUser}`);
-
+    // Verifica se o usuário já existe no array de usuários
     if (this.users.find((user) => user.cpf === newUser.cpf)) {
       console.log('if statement: User already exist! Returned false');
       return false;
     }
 
+    // Adiciona o novo usuário ao array de usuários
     this.users.push(newUser);
-    console.log('user added! Return true');
-    console.log('End addOne');
 
     return true;
   }
 
+  // Lista todos os usuários
   async list() {
     console.log(this.users);
     return;

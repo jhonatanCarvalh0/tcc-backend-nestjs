@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { UsuarioEntity } from 'src/users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -35,12 +36,8 @@ export class AuthController {
        we should use a DTO class to define the shape of the request body. 
        See the validation chapter at nestjs docs for more information
      */
-  signUp(@Body() singInDto: Record<string, any>) {
-    return this.authService.signUp(
-      singInDto.username,
-      singInDto.email,
-      singInDto.password,
-    );
+  signUp(@Body() singUpDto: UsuarioEntity) {
+    return this.authService.signUp(singUpDto);
   }
 
   @UseGuards(AuthGuard)
