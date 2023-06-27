@@ -52,9 +52,21 @@ model Orgao {
 }
 
 model BemMovel {
-  id         Int    @id @default(autoincrement())
-  nome       String
-  orgao      Orgao  @relation(fields: [orgaoId], references: [id])
-  orgaoId    Int
+  id                  Int                @id @default(autoincrement())
+  nome                String
+  descricao           String?
+  valor               Float?
+  tipoIngresso        String?
+  ingressoId          String?
+  arquivosAnexados    FileDto[]          @relation("BemMovelArquivosAnexados")
+  orgao               Orgao              @relation(fields: [orgaoId], references: [id])
+  orgaoId             Int
+}
+
+model FileDto {
+  id                  Int                @id @default(autoincrement())
+  path                String
+  bemMovel            BemMovel          @relation("BemMovelArquivosAnexados", fields: [bemMovelId], references: [id])
+  bemMovelId          Int
 }
 

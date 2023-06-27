@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Put,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { BensMoveisService } from './bens-moveis.service';
 import { CreateIngressoDto } from './dto/create-ingresso.dto';
 import { UpdateBemMovelDto } from './dto/update-bem-movel.dto';
@@ -12,24 +20,27 @@ export class BensMoveisController {
     return this.bensMoveisService.createIngresso(createIngressoDto);
   }
 
-  //READE
+  //READ
   @Get('read-all-bem-movel')
   findAll() {
     return this.bensMoveisService.findAll();
   }
-  @Get('read-one-bem-movel')
-  findOne(bemMovelId: string) {
+  @Get('read-one-bem-movel/:id')
+  findOne(@Param('id') bemMovelId: string) {
     return this.bensMoveisService.findOne(bemMovelId);
   }
 
   //UPDATE
-  @Put('update-atualizar-bem-movel')
-  update(bemMovelId: string, updateBemMovelDto: UpdateBemMovelDto) {
+  @Put('update-atualizar-bem-movel/:id')
+  update(
+    @Param('id') bemMovelId: string,
+    @Body() updateBemMovelDto: UpdateBemMovelDto,
+  ) {
     return this.bensMoveisService.updateBemMovel(bemMovelId, updateBemMovelDto);
   }
   //DELETE
-  @Delete('delete-baixa-bem-movel')
-  delete(bemMovelId: string) {
+  @Delete('delete-baixa-bem-movel/:id')
+  delete(@Param('id') bemMovelId: string) {
     return this.bensMoveisService.deleteBemMovel(bemMovelId);
   }
 }
