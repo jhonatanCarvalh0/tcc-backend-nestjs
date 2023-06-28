@@ -1,15 +1,8 @@
-import { BemMovelDto } from './bem-movel.dto';
+import { BemMovel } from '@prisma/client';
+import { BemMovelInterface } from '../interfaces/bem-movel.interface';
 
-//DTO's
 export class CreateIngressoDto {
   tipoIngresso: string;
-  bensMoveis: BemMovelDto[];
-}
-
-//interfaces?
-
-export class IngressoBemMovel {
-  id: string;
-  tipoIngresso: string;
-  bensMoveis: BemMovelDto[];
+  orgaoId: any;
+  bensMoveis: BemMovelInterface[];
 }

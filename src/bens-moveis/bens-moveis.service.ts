@@ -1,17 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateBemMovelDto } from './dto/update-bem-movel.dto';
-import { BemMovel } from './interfaces/bem-movel.interface';
-import { CreateIngressoDto, IngressoBemMovel } from './dto/create-ingresso.dto';
+import { BemMovel } from './entities/bem-movel.entity';
+import { Ingresso } from './entities/ingresso.entity';
+import { CreateIngressoDto } from './dto/create-ingresso.dto';
+import { BemMovelInterface } from './interfaces/bem-movel.interface';
+import { IngressoInterface } from './interfaces/ingresso.interface';
 
 @Injectable()
 export class BensMoveisService {
-  private bensMoveis: BemMovel[] = [];
-  private ingressos: IngressoBemMovel[] = [];
+  private bensMoveis: BemMovel[] = [
+    {
+      id: '1',
+      nome: 'Objeto 1',
+      orgao: 'FAPERO',
+      setor: 'NCAPT',
+      descricao: 'Descrição do objeto 1',
+      valor: 100,
+      tipoIngresso: 'Tipo 1',
+      arquivosAnexados: [],
+      orgaoId: 1,
+      setorId: 1,
+      ingressoId: 1,
+    },
+  ];
+  private ingressos: Ingresso[] = [
+    {
+      id: '1',
+      tipoIngresso: 'Tipo 1',
+      orgaoId: 1,
+      orgao: 'Orgao A',
+      bensMoveis: [],
+    },
+  ];
 
   createIngresso(createIngressoDto: CreateIngressoDto) {
     const ingresso = {
       id: uuidv4(),
+      orgaoId: createIngressoDto.orgaoId,
+      orgao: 'FAPERO',
       tipoIngresso: createIngressoDto.tipoIngresso,
       bensMoveis: [],
     };
@@ -20,6 +47,10 @@ export class BensMoveisService {
       const bemMovel = {
         id: uuidv4(),
         nome: createBemMovelDto.nome,
+        orgao: 'FAPERO',
+        setor: 'NCAPT',
+        orgaoId: createBemMovelDto.orgaoId,
+        setorId: createBemMovelDto.setorId,
         descricao: createBemMovelDto.descricao,
         valor: createBemMovelDto.valor,
         arquivosAnexados: createBemMovelDto.arquivosAnexados,
@@ -94,9 +125,12 @@ export class BensMoveisService {
     if (index !== -1) {
       // Remove o bem móvel do array
       const deletedBemMovel = this.bensMoveis.splice(index, 1)[0];
-
       // Retorna o bem móvel removido
-      return deletedBemMovel;
+      return {
+        message: 'bem movel removido!',
+        bemRemovido: `id: ${deletedBemMovel.id} nome: ${deletedBemMovel.nome}`,
+        listaAtualziada: this.readAll(),
+      };
     }
 
     // Retorna null caso o bem móvel não seja encontrado

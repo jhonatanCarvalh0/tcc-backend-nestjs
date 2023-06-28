@@ -1,6 +1,6 @@
-import { Arquivo } from '@prisma/client';
+import { ArquivoDto } from './arquivo.dto';
 
-export class BemMovelInterface {
+export class CreateBemMovelDto {
   nome: string;
   descricao?: string;
   valor?: number;
@@ -8,5 +8,4 @@ export class BemMovelInterface {
   orgaoId: any;
   setorId: any;
   ingressoId: any;
-  id: string;
 }

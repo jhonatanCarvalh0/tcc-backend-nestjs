@@ -1,7 +1,9 @@
 import { BemMovel } from '@prisma/client';
 
-export class IngressoInterface {
+export class Ingresso {
+  id: any;
   tipoIngresso: string;
   orgaoId: number;
-  bensMoveis: any[];
+  orgao: string;
+  bensMoveis: BemMovel[];
 }

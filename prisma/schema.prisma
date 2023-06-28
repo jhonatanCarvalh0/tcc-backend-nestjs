@@ -16,18 +16,19 @@ model Setor {
   usuarios  Usuario[]
   unidade   UnidadeAdministrativa @relation(fields: [unidadeId], references: [id])
   unidadeId Int
+  BemMovel  BemMovel[]
 }
 
 model Usuario {
-  id       Int     @id @default(autoincrement())
-  nome     String
-  email    String  @unique
-  senha    String
-  cpf      String  @unique
-  setor    Setor   @relation(fields: [setorId], references: [id])
-  setorId  Int
-  orgao    Orgao   @relation(fields: [orgaoId], references: [id])
-  orgaoId  Int
+  id      Int    @id @default(autoincrement())
+  nome    String
+  email   String @unique
+  senha   String
+  cpf     String @unique
+  setor   Setor  @relation(fields: [setorId], references: [id])
+  setorId Int
+  orgao   Orgao  @relation(fields: [orgaoId], references: [id])
+  orgaoId Int
 }
 
 model UnidadeAdministrativa {
@@ -60,23 +61,24 @@ model BemMovel {
   nome             String
   descricao        String?
   valor            Float?
-  tipoIngresso     String?
-  arquivosAnexados FileDto[] @relation("BemMovelArquivosAnexados")
+  arquivosAnexados Arquivo[] @relation("BemMovelArquivosAnexados")
   orgao            Orgao     @relation(fields: [orgaoId], references: [id])
   orgaoId          Int
-  Ingresso         Ingresso? @relation(fields: [ingressoId], references: [id])
+  setor            Setor     @relation(fields: [setorId], references: [id])
+  setorId          Int
+  tipoIngresso     Ingresso? @relation(fields: [ingressoId], references: [id])
   ingressoId       Int?
 }
 
 model Ingresso {
   id           Int        @id @default(autoincrement())
   tipoIngresso String
-  bensMoveis   BemMovel[]
+  bensMoveis   BemMovel[] 
   orgao        Orgao      @relation(fields: [orgaoId], references: [id])
   orgaoId      Int
 }
 
-model FileDto {
+model Arquivo {
   id         Int      @id @default(autoincrement())
   path       String
   bemMovel   BemMovel @relation("BemMovelArquivosAnexados", fields: [bemMovelId], references: [id])
