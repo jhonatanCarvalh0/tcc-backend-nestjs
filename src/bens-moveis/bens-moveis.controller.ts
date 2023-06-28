@@ -22,12 +22,12 @@ export class BensMoveisController {
 
   //READ
   @Get('read-all-bem-movel')
-  findAll() {
-    return this.bensMoveisService.findAll();
+  readAll() {
+    return this.bensMoveisService.readAll();
   }
   @Get('read-one-bem-movel/:id')
-  findOne(@Param('id') bemMovelId: string) {
-    return this.bensMoveisService.findOne(bemMovelId);
+  readOnly(@Param('id') bemMovelId: string) {
+    return this.bensMoveisService.readOnly(bemMovelId);
   }
 
   //UPDATE
@@ -36,11 +36,11 @@ export class BensMoveisController {
     @Param('id') bemMovelId: string,
     @Body() updateBemMovelDto: UpdateBemMovelDto,
   ) {
-    return this.bensMoveisService.updateBemMovel(bemMovelId, updateBemMovelDto);
+    return this.bensMoveisService.update(bemMovelId, updateBemMovelDto);
   }
   //DELETE
   @Delete('delete-baixa-bem-movel/:id')
   delete(@Param('id') bemMovelId: string) {
-    return this.bensMoveisService.deleteBemMovel(bemMovelId);
+    return this.bensMoveisService.delete(bemMovelId);
   }
 }

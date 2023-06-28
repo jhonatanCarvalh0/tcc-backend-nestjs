@@ -8,6 +8,8 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioEntity } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
+import { CreateUsuarioDTO } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -42,23 +44,20 @@ export class AuthService {
     };
   }
 
-  async signUp(newUserData: UsuarioEntity) {
+  async signUp(newUserData: CreateUsuarioDTO) {
     console.log('Start SingUp');
-    const { nome, cpf, email, senha, setor, setorId, orgao, orgaoId } =
-      newUserData;
+    const { nome, cpf, email, senha, setorId, orgaoId } = newUserData;
 
     const userCreated = await this.userService.createUser({
       nome,
       cpf,
       email,
       senha,
-      setor,
       setorId,
-      orgao,
       orgaoId,
     });
 
-    if (userCreated === false) {
+    if (!userCreated) {
       throw new HttpException(
         'User with this email already exists. Try logging in or using another email.',
         HttpStatus.BAD_REQUEST,

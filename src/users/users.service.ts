@@ -43,11 +43,7 @@ export class UsersService {
   ];
 
   constructor(private prisma: PrismaService) {}
-  // Encontra um usuário pelo email - Array
-  async readOnlyArray(email: string): Promise<UserArray | undefined> {
-    const userFind = this.users.find((user) => user.email === email);
-    return userFind;
-  }
+
   // Encontra um usuário pelo email - Prisma/Database
   async readOnly(email: string): Promise<User | undefined> {
     return this.prisma.usuario.findFirst({
@@ -55,8 +51,54 @@ export class UsersService {
     });
   }
 
-  // Adiciona um novo usuário
-  async createUser(
+  // Adiciona um novo usuário - Prisma/Database - TODO
+  async createUser(newUserData: CreateUsuarioDTO): Promise<User | undefined> {
+    const hashedPassword = await bcrypt.hash(newUserData.senha, 10);
+
+    // Verifica se o usuário já existe no banco de dados
+    const existingUser = await this.prisma.usuario.findFirst({
+      where: {
+        cpf: newUserData.cpf,
+      },
+    });
+
+    if (existingUser) {
+      console.log('User already exists!');
+      return undefined;
+    }
+
+    const newUser = await this.prisma.usuario.create({
+      data: {
+        nome: newUserData.nome,
+        cpf: newUserData.cpf,
+        email: newUserData.email,
+        senha: hashedPassword,
+        setorId: newUserData.setorId,
+        orgaoId: newUserData.orgaoId,
+      },
+      include: {
+        setor: true,
+        orgao: true,
+      },
+    });
+
+    return newUser;
+  }
+
+  // Lista todos os usuários - Prisma/Database - TODO
+  async list() {
+    const users = await this.prisma.usuario.findMany();
+    console.log(users);
+    return;
+  }
+
+  // Encontra um usuário pelo email - Array
+  async readOnlyArray(email: string): Promise<UserArray | undefined> {
+    const userFind = this.users.find((user) => user.email === email);
+    return userFind;
+  }
+  // Adiciona um novo usuário - Array
+  async createUserArray(
     newUserData: CreateUsuarioDTO,
   ): Promise<UserArray | undefined> {
     const hashedPassword = await bcrypt.hash(newUserData.senha, 10);
@@ -78,8 +120,8 @@ export class UsersService {
     return true;
   }
 
-  // Lista todos os usuários
-  async list() {
+  // Lista todos os usuários - Array
+  async listArray() {
     console.log(this.users);
     return;
   }

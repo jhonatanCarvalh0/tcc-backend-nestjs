@@ -46,12 +46,12 @@ export class BensMoveisService {
   }
 
   // list all bens moveis at array list
-  findAll() {
+  readAll() {
     return this.bensMoveis;
   }
 
   // return bem movel finded by id
-  findOne(bemMovelId: string) {
+  readOnly(bemMovelId: string) {
     // Search for index of bem movel ar array
     const index = this.bensMoveis.findIndex((item) => item.id === bemMovelId);
 
@@ -66,7 +66,7 @@ export class BensMoveisService {
   }
 
   // update bem-movel
-  updateBemMovel(bemMovelId: string, updateBemMovelDto: UpdateBemMovelDto) {
+  update(bemMovelId: string, updateBemMovelDto: UpdateBemMovelDto) {
     // Procura pelo índice do bem móvel no array
     const index = this.bensMoveis.findIndex((item) => item.id === bemMovelId);
 
@@ -86,7 +86,7 @@ export class BensMoveisService {
   }
 
   // delete bem movel
-  deleteBemMovel(bemMovelId: string) {
+  delete(bemMovelId: string) {
     // Procura pelo índice do bem móvel no array
     const index = this.bensMoveis.findIndex((item) => item.id === bemMovelId);
 
