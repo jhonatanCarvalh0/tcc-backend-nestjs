@@ -8,7 +8,6 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioEntity } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +19,7 @@ export class AuthService {
   async signIn(email: string, senha: string) {
     console.log('entrou no singIn');
 
-    const user = await this.userService.findOne(email);
+    const user = await this.userService.readOnly(email);
     if (!user) {
       console.log('entrou no if 1');
 

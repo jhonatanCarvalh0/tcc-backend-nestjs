@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UsuarioEntity } from './entities/user.entity';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Usuario } from '@prisma/client';
+import { CreateUsuarioDTO } from './dto/create-user.dto';
+
 // This should be a real class/interface representing a user entity
-export type User = any;
+export type User = Usuario;
+export type UserArray = any;
 
 @Injectable()
 export class UsersService {
@@ -38,16 +42,25 @@ export class UsersService {
     },
   ];
 
-  // Encontra um usuário pelo email
-  async findOne(email: string): Promise<User | undefined> {
+  constructor(private prisma: PrismaService) {}
+  // Encontra um usuário pelo email - Array
+  async readOnlyArray(email: string): Promise<UserArray | undefined> {
     const userFind = this.users.find((user) => user.email === email);
     return userFind;
   }
+  // Encontra um usuário pelo email - Prisma/Database
+  async readOnly(email: string): Promise<User | undefined> {
+    return this.prisma.usuario.findFirst({
+      where: { email },
+    });
+  }
 
   // Adiciona um novo usuário
-  async createUser(newUserData: UsuarioEntity): Promise<any | undefined> {
+  async createUser(
+    newUserData: CreateUsuarioDTO,
+  ): Promise<UserArray | undefined> {
     const hashedPassword = await bcrypt.hash(newUserData.senha, 10);
-    const newUser: User = {
+    const newUser: UserArray = {
       id: this.users.length,
       ...newUserData,
       senha: hashedPassword,
